@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "npx parcel ./index.html",
+    "build": "npx parcel build ./index.html"
+  },
   "dependencies": {
     "@types/react-dom": "^19.1.5",
     "@types/three": "^0.176.0",
