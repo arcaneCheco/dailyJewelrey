@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@types/react-dom": "^19.1.5",
+    "@types/three": "^0.176.0",
+    "parcel": "^2.15.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "three": "^0.176.0",
+    "tweakpane": "^4.0.5"
+  },
+  "devDependencies": {
+    "@parcel/transformer-glsl": "^2.15.1",
+    "@parcel/transformer-css": "^2.15.1",
+    "@types/css-modules": "^1.0.5"
+  }
+}
