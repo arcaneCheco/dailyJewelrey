@@ -39,12 +39,6 @@
     padding-bottom: 20px;
 }
 
-/* .button-wrapper .button {
-  position: absolute;
-  color: #FFF;
-  font-size: 17px;
-} */
-
 @keyframes pulse {
   0% {
     transform: scale(1, 1);

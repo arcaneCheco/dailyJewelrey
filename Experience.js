@@ -26,7 +26,8 @@ video2.muted = true;
 video2.playsInline = true;
 video2.autoplay = true;
 
-const gallery = [video1, video2];
+// const gallery = [video1, video2];
+const gallery = [img0, img1, img2];
 
 // Function to start all videos
 const startVideos = async () => {
@@ -69,10 +70,11 @@ export class Experience {
         this.textures = [];
         
         gallery.forEach((vid) => {
-            const texture = new THREE.VideoTexture(vid);
-            texture.minFilter = THREE.LinearFilter;
-            texture.magFilter = THREE.LinearFilter;
-            this.textures.push(texture);
+            // const texture = new THREE.VideoTexture(vid);
+            // texture.minFilter = THREE.LinearFilter;
+            // texture.magFilter = THREE.LinearFilter;
+            // this.textures.push(texture);
+            this.textures.push(this.textureLoader.load(vid));
         });
         
         this.addObject();

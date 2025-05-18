@@ -21,7 +21,7 @@ export const Form = ({isOpen, open, close}: {isOpen: boolean, open: () => void, 
                 <div className={styles.content}>
                     <p className={styles.title}>Subscribe to the daily Jewellery</p>
                     <input className={styles.input} type="text" placeholder="Email" />
-                    <button className={styles.button} onClick={(e: React.MouseEvent<HTMLButtonElement>) => e.stopPropagation()}>Subscribe</button>
+                    <button className={styles.button} onClick={(e: React.MouseEvent<HTMLButtonElement>) => {e.stopPropagation()}}>Subscribe</button>
                 </div>
             </div>
         </div>

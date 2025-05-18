@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './App.module.css';
 import { Experience } from './Experience';
-import { Button } from './Button';
 import { Form } from './Form';
 export const App = () => {
     const [slideIndex, setSlideIndex] = useState(0);
@@ -23,12 +22,11 @@ export const App = () => {
         <div id="app" className={styles.app}>
             <div id="experience" className={styles.experience} />
             <div className={styles.content}>
-                {/* <Button /> */}
-                <Form isOpen={isFormOpen} open={() => {
-                    console.log('oPENING')
-                    setIsFormOpen(true)}} close={() => {
-                        console.log('CLOSING')
-                        setIsFormOpen(false)}} />
+                <Form 
+                    isOpen={isFormOpen} 
+                    open={() => {setIsFormOpen(true)}} 
+                    close={() => {setIsFormOpen(false)}}
+                 />
             </div>
         </div>
     );
