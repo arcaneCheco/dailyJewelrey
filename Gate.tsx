@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './Gate.module.css';
 // @ts-ignore
 import videoSrc from './img/daisies.mp4'; 
+import { startVideos } from './Experience';
 
 export const Gate = ({closeGate, isLoadingScreen}: {closeGate: () => void, isLoadingScreen: boolean}) => {
     const formRef = useRef<HTMLFormElement>(null);
@@ -11,6 +12,7 @@ export const Gate = ({closeGate, isLoadingScreen}: {closeGate: () => void, isLoa
         if (userInput.length < 1) return;
         if (userInput.trim().toLowerCase() === 'hell0') {
             formRef.current?.classList.add(styles.close);
+            startVideos();
             setTimeout(() => {
                 closeGate();
             }, 500);

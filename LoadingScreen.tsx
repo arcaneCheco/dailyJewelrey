@@ -2,10 +2,7 @@ import styles from './LoadingScreen.module.css';
 import { startVideos } from './Experience';
 
 export const LoadingScreen = ({isLoading, setIsLoadingScreen}: {isLoading: boolean, setIsLoadingScreen: (isLoadingScreen: boolean) => void}) => {
-    const handleClick = async () => {
-        console.log('starting videos');
-        await startVideos();
-        console.log('close loader');
+    const handleClick = () => {
         setIsLoadingScreen(false);
     }
     return (
