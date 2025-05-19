@@ -7,15 +7,15 @@ import { startVideos } from './Experience';
 export const Gate = ({closeGate, isLoadingScreen}: {closeGate: () => void, isLoadingScreen: boolean}) => {
     const formRef = useRef<HTMLFormElement>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (userInput.length < 1) return;
         if (userInput.trim().toLowerCase() === 'hell0') {
             formRef.current?.classList.add(styles.close);
-            startVideos();
             setTimeout(() => {
                 closeGate();
             }, 500);
+            await startVideos();
         } else {
             setWarning(true);
         }
