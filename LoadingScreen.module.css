@@ -33,3 +33,47 @@
   @keyframes l24{
     100%{background-position: left}
   }
+
+  .enter {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    pointer-events: auto;
+  }
+
+  .enter-bg {
+    animation: pulse 1.2s ease infinite;
+    background: #474747;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    position: absolute;
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(1, 1);
+    }
+    50% {
+      opacity: 0.3;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  .button {
+    background: none;
+    border: none;
+    outline: none;
+    width: 90%;
+    height: 90%;
+    border-radius: 100%;
+    background: #474747;
+    position: absolute;
+    z-index: 1;
+
+}

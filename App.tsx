@@ -7,11 +7,11 @@ import { LoadingScreen } from './LoadingScreen';
 export const App = () => {
     const [slideIndex, setSlideIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingScreen, setIsLoadingScreen] = useState(true);
     const [isGate, setIsGate] = useState(true);
 
     const loadVideos = async () => {
         await loadAllVideos();
-        console.log('videos loaded');
         setIsLoading(false);
     }
 
@@ -39,8 +39,8 @@ export const App = () => {
                     close={() => {setIsFormOpen(false)}}
                  />
             </div>
-            {isGate && <Gate closeGate={() => {setIsGate(false)}} />}
-            {isLoading && <LoadingScreen />}
+            {isGate && <Gate closeGate={() => {setIsGate(false)}} isLoadingScreen={isLoadingScreen} />}
+            {isLoadingScreen && <LoadingScreen isLoading={isLoading} setIsLoadingScreen={setIsLoadingScreen} />}
         </div>
     );
 }

@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Gate.module.css';
 // @ts-ignore
 import videoSrc from './img/daisies.mp4'; 
 
-export const Gate = ({closeGate}: {closeGate: () => void}) => {
+export const Gate = ({closeGate, isLoadingScreen}: {closeGate: () => void, isLoadingScreen: boolean}) => {
     const formRef = useRef<HTMLFormElement>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (userInput.length < 1) return;
@@ -19,6 +20,11 @@ export const Gate = ({closeGate}: {closeGate: () => void}) => {
     }
     const [userInput, setUserInput] = useState('');
     const [warning, setWarning] = useState(false);
+    useEffect(() => {
+        if (!isLoadingScreen) {
+            videoRef.current?.play();
+        }
+    }, [isLoadingScreen]);
     return (
         <form className={`${styles.wrapper}`} onSubmit={handleSubmit} ref={formRef}>
             <p className={styles.title}>🐱</p>
@@ -34,7 +40,7 @@ export const Gate = ({closeGate}: {closeGate: () => void}) => {
                 </button>
                 {warning && <p className={styles.warning}>Wrong password</p>}
             </div>
-            <video src={videoSrc} autoPlay muted loop className={styles.video} />
+            <video src={videoSrc} autoPlay playsInline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" muted loop className={styles.video} ref={videoRef} />
         </form>
     )
 }

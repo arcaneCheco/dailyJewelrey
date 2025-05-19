@@ -1,33 +1,26 @@
 import * as THREE from 'three';
 import vertexShader from './vertex.glsl';
 import fragmentShader from './fragment.glsl';
-import img0 from './img/img.jpg';
-import img1 from './img/img1.jpg';
-import img2 from './img/img2.jpg';
-import img3 from './img/img3.jpg';
-import img4 from './img/img4.jpg';
-import img5 from './img/img5.jpg';
+// import img0 from './img/img.jpg';
+// import img1 from './img/img1.jpg';
+// import img2 from './img/img2.jpg';
+// import img3 from './img/img3.jpg';
+// import img4 from './img/img4.jpg';
+// import img5 from './img/img5.jpg';
 import video1src from './img/vid1.mp4';
 import video2src from './img/vid2.mp4';
 
-const video1 = document.createElement('video');
-video1.src = video1src;
-video1.crossOrigin = 'anonymous';
-video1.loop = true;
-video1.muted = true;
-video1.playsInline = true;
-video1.autoplay = true;
-
-const video2 = document.createElement('video');
-video2.src = video2src;
-video2.crossOrigin = 'anonymous';
-video2.loop = true;
-video2.muted = true;
-video2.playsInline = true;
-video2.autoplay = true;
-
-const gallery = [video1, video2];
-// const gallery = [img0, img1, img2];
+const videoSrcs = [video1src, video2src];
+const videos = videoSrcs.map((src) => {
+    const video = document.createElement('video');
+    video.src = src;
+    video.crossOrigin = 'anonymous';
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+    return video;
+});
 
 // Function to load a single video
 const loadVideo = (video) => {
@@ -41,22 +34,9 @@ const loadVideo = (video) => {
     });
 };
 
-// Function to start all videos
-const startVideos = async () => {
-    try {
-        await Promise.all([
-            video1.play(),
-            video2.play()
-        ]);
-    } catch (error) {
-        console.warn('Autoplay failed:', error);
-    }
-};
-
-// Function to load all videos
 export const loadAllVideos = async () => {
     try {
-        await Promise.all(gallery.map(loadVideo));
+        await Promise.all(videos.map(loadVideo));
         return true;
     } catch (error) {
         console.error('Error loading videos:', error);
@@ -64,13 +44,13 @@ export const loadAllVideos = async () => {
     }
 };
 
-// Try to start videos immediately
-startVideos();
-
-// Also try to start videos on first user interaction
-document.addEventListener('click', () => {
-    startVideos();
-}, { once: true });
+export const startVideos = async () => {
+    try {
+        await Promise.all(videos.map(video => video.play()));
+    } catch (error) {
+        console.warn('Autoplay failed:', error);
+    }
+};
 
 export class Experience {
     constructor(updateIndex) {
@@ -89,16 +69,13 @@ export class Experience {
         document.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: false });
         document.addEventListener('touchend', this.onTouchEnd.bind(this), { passive: false });
         
-        this.textureLoader = new THREE.TextureLoader();
-        this.textures = [];
-        
-        gallery.forEach((vid) => {
+        this.textures = videos.map(vid => {
             const texture = new THREE.VideoTexture(vid);
             texture.minFilter = THREE.LinearFilter;
             texture.magFilter = THREE.LinearFilter;
-            this.textures.push(texture);
-            // this.textures.push(this.textureLoader.load(vid));
+            return texture;
         });
+        this.nSlides = this.textures.length;
         
         this.addObject();
         this.update();
@@ -194,8 +171,8 @@ export class Experience {
         }
         this.material.uniforms.progress.value = this.position;
 
-        let curslide = (Math.floor(this.position)%gallery.length + gallery.length) % gallery.length;
-        let nextslide = (curslide + 1)%gallery.length;
+        let curslide = (Math.floor(this.position) % this.nSlides + this.nSlides) % this.nSlides;
+        let nextslide = (curslide + 1) % this.nSlides;
         this.updateIndex(curslide);
         this.material.uniforms.texture1.value = this.textures[curslide];
         this.material.uniforms.texture2.value = this.textures[nextslide];
@@ -217,7 +194,6 @@ export class Experience {
         this.container.removeChild(this.renderer.domElement);
         document.removeEventListener("resize", this.resize.bind(this));
         document.removeEventListener("wheel", this.onWheel.bind(this));
-        // Remove touch events
         document.removeEventListener('touchstart', this.onTouchStart.bind(this));
         document.removeEventListener('touchmove', this.onTouchMove.bind(this));
         document.removeEventListener('touchend', this.onTouchEnd.bind(this));
