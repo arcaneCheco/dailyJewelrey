@@ -26,8 +26,20 @@ video2.muted = true;
 video2.playsInline = true;
 video2.autoplay = true;
 
-// const gallery = [video1, video2];
-const gallery = [img0, img1, img2];
+const gallery = [video1, video2];
+// const gallery = [img0, img1, img2];
+
+// Function to load a single video
+const loadVideo = (video) => {
+    return new Promise((resolve, reject) => {
+        if (video.readyState >= 3) {
+            resolve(video);
+        } else {
+            video.addEventListener('canplaythrough', () => resolve(video), { once: true });
+            video.addEventListener('error', (error) => reject(error), { once: true });
+        }
+    });
+};
 
 // Function to start all videos
 const startVideos = async () => {
@@ -38,6 +50,17 @@ const startVideos = async () => {
         ]);
     } catch (error) {
         console.warn('Autoplay failed:', error);
+    }
+};
+
+// Function to load all videos
+export const loadAllVideos = async () => {
+    try {
+        await Promise.all(gallery.map(loadVideo));
+        return true;
+    } catch (error) {
+        console.error('Error loading videos:', error);
+        return false;
     }
 };
 
@@ -70,11 +93,11 @@ export class Experience {
         this.textures = [];
         
         gallery.forEach((vid) => {
-            // const texture = new THREE.VideoTexture(vid);
-            // texture.minFilter = THREE.LinearFilter;
-            // texture.magFilter = THREE.LinearFilter;
-            // this.textures.push(texture);
-            this.textures.push(this.textureLoader.load(vid));
+            const texture = new THREE.VideoTexture(vid);
+            texture.minFilter = THREE.LinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            this.textures.push(texture);
+            // this.textures.push(this.textureLoader.load(vid));
         });
         
         this.addObject();
