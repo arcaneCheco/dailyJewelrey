@@ -19,6 +19,11 @@ const videos = videoSrcs.map((src) => {
     video.muted = true;
     video.playsInline = true;
     video.autoplay = true;
+    // Add event listener to ensure looping
+    video.addEventListener('ended', () => {
+        video.currentTime = 0;
+        video.play();
+    });
     return video;
 });
 
@@ -26,9 +31,11 @@ const videos = videoSrcs.map((src) => {
 const loadVideo = (video) => {
     return new Promise((resolve, reject) => {
         if (video.readyState >= 3) {
-            resolve(video);
+            video.play().then(() => resolve(video)).catch(reject);
         } else {
-            video.addEventListener('canplaythrough', () => resolve(video), { once: true });
+            video.addEventListener('canplaythrough', () => {
+                video.play().then(() => resolve(video)).catch(reject);
+            }, { once: true });
             video.addEventListener('error', (error) => reject(error), { once: true });
         }
     });
